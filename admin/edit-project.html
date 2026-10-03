@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="admin-edit-project">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <span>Portfolio Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="projects.html" class="active">Portfolio</a>
+        <a href="add-project.html">Add Work</a>
+        <a href="categories.html">Categories</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="messages.html">Messages</a>
+        <a href="hire-requests.html">Hire Requests</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <button type="button" class="sidebar-logout" id="logoutButton">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-topbar">
+        <h1>Edit Project</h1>
+      </header>
+
+      <form id="editProjectForm" class="base-form admin-form" enctype="multipart/form-data">
+        <input type="hidden" id="edit-project-id" name="id">
+        <div class="form-row two-col">
+          <div>
+            <label for="edit-project-title">Project Title</label>
+            <input type="text" id="edit-project-title" name="title" required>
+          </div>
+          <div>
+            <label for="edit-project-category">Category</label>
+            <select id="edit-project-category" name="category_id" required></select>
+          </div>
+        </div>
+
+        <div>
+          <label for="edit-project-description">Description</label>
+          <textarea id="edit-project-description" name="description" rows="6" required></textarea>
+        </div>
+
+        <div class="form-row two-col">
+          <div>
+            <label for="edit-project-client">Client</label>
+            <input type="text" id="edit-project-client" name="client">
+          </div>
+          <div>
+            <label for="edit-project-date">Project Date</label>
+            <input type="date" id="edit-project-date" name="project_date">
+          </div>
+        </div>
+
+        <div class="form-row two-col">
+          <div>
+            <label for="edit-project-tools">Tools</label>
+            <input type="text" id="edit-project-tools" name="tools">
+          </div>
+          <div>
+            <label for="edit-project-type">Project Type</label>
+            <input type="text" id="edit-project-type" name="project_type">
+          </div>
+        </div>
+
+        <div class="checkbox-wrap">
+          <label><input type="checkbox" id="edit-project-featured" name="featured" value="1"> Featured</label>
+        </div>
+
+        <div>
+          <label for="edit-project-image">Replace Image</label>
+          <input type="file" id="edit-project-image" name="image" accept="image/jpeg,image/png,image/webp">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Project</button>
+      </form>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

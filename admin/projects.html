@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="admin-projects">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <span>Portfolio Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="projects.html" class="active">Portfolio</a>
+        <a href="add-project.html">Add Work</a>
+        <a href="categories.html">Categories</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="messages.html">Messages</a>
+        <a href="hire-requests.html">Hire Requests</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <button type="button" class="sidebar-logout" id="logoutButton">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-topbar">
+        <h1>Portfolio Management</h1>
+        <a href="add-project.html" class="btn btn-primary">Add Project</a>
+      </header>
+
+      <div class="filter-box">
+        <input type="search" id="projectSearch" placeholder="Search by title, category, client">
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Client</th>
+              <th>Date</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="projectsTableBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

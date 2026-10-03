@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="admin-media">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <span>Portfolio Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="home-content.html">Home Content</a>
+        <a href="services.html">Services</a>
+        <a href="projects.html">Portfolio</a>
+        <a href="add-project.html">Add Work</a>
+        <a href="categories.html">Categories</a>
+        <a href="media.html" class="active">Media</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="messages.html">Messages</a>
+        <a href="hire-requests.html">Hire Requests</a>
+        <a href="settings.html">Settings</a>
+        <button type="button" class="sidebar-logout" id="logoutButton">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-topbar">
+        <h1>Media Library</h1>
+      </header>
+
+      <form id="mediaUploadForm" class="base-form admin-form" enctype="multipart/form-data">
+        <div>
+          <label for="media-image">Upload image (JPG, JPEG, PNG, WEBP; max 5MB)</label>
+          <input type="file" id="media-image" name="image" accept="image/jpeg,image/png,image/webp" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload Image</button>
+      </form>
+
+      <section class="panel" style="margin-top: 24px;">
+        <div class="panel-header"><h2>Uploaded Images</h2></div>
+        <div id="mediaFilesList" class="mini-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>
