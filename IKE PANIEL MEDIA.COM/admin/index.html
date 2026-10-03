@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Graphic Designer Portfolio</title>
+  <meta name="description" content="Secure admin login for managing the portfolio website.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="admin-auth-body" data-page="admin-login">
+  <div class="admin-auth-shell">
+    <div class="admin-auth-card">
+      <div class="admin-auth-header">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <h1>Admin Login</h1>
+      </div>
+      <form id="adminLoginForm" class="base-form admin-form">
+        <div>
+          <label for="admin-email">Email</label>
+          <input type="email" id="admin-email" name="email" placeholder="admin@designer.com" required>
+        </div>
+        <div>
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary full-width">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

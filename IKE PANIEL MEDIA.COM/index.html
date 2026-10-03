@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphic Designer Portfolio | Home</title>
+  <meta name="description" content="Graphic designer portfolio showcasing branding, marketing design, digital graphics, and creative solutions.">
+  <meta property="og:title" content="Graphic Designer Portfolio">
+  <meta property="og:description" content="Professional graphic designer portfolio and creative services website.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand" aria-label="Ike Peniel Media home"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"><span class="brand-wordmark"><strong>Ike Peniel Media</strong><small>Expanding brands through creativity</small></span></a>
+      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#hire" class="btn btn-primary small-btn">Hire Me</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" id="hero-tagline">Expanding brands through creativity</p>
+          <h1 id="hero-heading">Design that speaks before you do.</h1>
+          <p class="lead" id="hero-description">Ghanaian graphic designer creating distinctive brand identities, campaign visuals, and digital experiences that help ambitious businesses stand out.</p>
+          <div class="hero-actions">
+            <a href="portfolio.html" id="primary-action" class="btn btn-primary">View Portfolio <span aria-hidden="true">↗</span></a>
+            <a href="contact.html#hire" id="secondary-action" class="btn btn-secondary">Hire Me</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-portrait-stage">
+            <img id="hero-image" src="assets/images/profile/ike-peniel.jpg" alt="Ike Peniel, founder and CEO of Ike Peniel Media">
+            <div class="hero-availability"><span></span> Available for projects</div>
+            <div class="hero-portrait-caption"><span>IKE PENIEL</span><small>Founder & CEO · Ghana</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="stats-row hero-stats">
+          <div><strong id="projects-completed">120+</strong><span>Projects completed</span></div>
+          <div><strong id="happy-clients">80+</strong><span>Happy clients</span></div>
+          <div><strong id="client-satisfaction">98%</strong><span>Client satisfaction</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-section section-spacing">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow light">Featured Works</p>
+          <h2>Creative solutions built for standout brands.</h2>
+        </div>
+        <div id="featured-projects" class="portfolio-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section-spacing about-preview">
+      <div class="container split-section">
+        <div class="about-preview-image">
+          <div class="image-frame">
+            <img id="about-image" src="assets/images/profile/ike-peniel.jpg" alt="Ike Peniel, founder and CEO of Ike Peniel Media">
+          </div>
+        </div>
+        <div class="about-preview-content">
+          <p class="eyebrow">About Me</p>
+          <h2 id="about-heading">Designing with clarity, emotion, and strategy.</h2>
+          <p id="about-biography">Ike Peniel is the founder and CEO of Ike Peniel Media, a Ghana-based creative studio expanding brands through thoughtful graphic design, visual storytelling, and polished digital and print experiences.</p>
+          <ul class="check-list">
+            <li>Brand identity design</li>
+            <li>Campaign and social media visuals</li>
+            <li>Print-ready design assets</li>
+          </ul>
+          <a href="about.html" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand brand-footer"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <p data-brand-name>Ike Peniel Media</p>
+        <p class="brand-motto" data-brand-motto>Expanding brands through creativity</p>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Social</h3>
+        <ul class="footer-links" id="footer-social-links"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p id="footer-copyright">© <span id="current-year"></span> Ike Peniel Media. All Rights Reserved.</p>
+        <p>Developed by JTECH SOLUTIONS</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

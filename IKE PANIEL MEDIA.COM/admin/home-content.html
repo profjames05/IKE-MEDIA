@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Content</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="admin-home-content">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <span>Portfolio Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="home-content.html" class="active">Home Content</a>
+        <a href="services.html">Services</a>
+        <a href="projects.html">Portfolio</a>
+        <a href="add-project.html">Add Work</a>
+        <a href="categories.html">Categories</a>
+        <a href="media.html">Media</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="messages.html">Messages</a>
+        <a href="hire-requests.html">Hire Requests</a>
+        <a href="settings.html">Settings</a>
+        <button type="button" class="sidebar-logout" id="logoutButton">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-topbar">
+        <h1>Home Content</h1>
+      </header>
+
+      <form id="homeContentForm" class="base-form admin-form">
+        <div>
+          <label for="hero_heading">Hero Heading</label>
+          <input type="text" id="hero_heading" name="hero_heading">
+        </div>
+        <div>
+          <label for="hero_description">Hero Description</label>
+          <textarea id="hero_description" name="hero_description" rows="4"></textarea>
+        </div>
+        <div>
+          <label for="hero_image">Hero Image URL</label>
+          <input type="url" id="hero_image" name="hero_image">
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="primary_button_text">Primary Button Text</label>
+            <input type="text" id="primary_button_text" name="primary_button_text">
+          </div>
+          <div>
+            <label for="primary_button_link">Primary Button Link</label>
+            <input type="text" id="primary_button_link" name="primary_button_link">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="secondary_button_text">Secondary Button Text</label>
+            <input type="text" id="secondary_button_text" name="secondary_button_text">
+          </div>
+          <div>
+            <label for="secondary_button_link">Secondary Button Link</label>
+            <input type="text" id="secondary_button_link" name="secondary_button_link">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="projects_completed">Projects Completed</label>
+            <input type="text" id="projects_completed" name="projects_completed">
+          </div>
+          <div>
+            <label for="happy_clients">Happy Clients</label>
+            <input type="text" id="happy_clients" name="happy_clients">
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="client_satisfaction">Client Satisfaction</label>
+            <input type="text" id="client_satisfaction" name="client_satisfaction">
+          </div>
+          <div>
+            <label for="years_experience">Years Experience</label>
+            <input type="text" id="years_experience" name="years_experience">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Home Content</button>
+      </form>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

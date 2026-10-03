@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-page="admin-add-project">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <span>Portfolio Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="projects.html" class="active">Portfolio</a>
+        <a href="add-project.html" class="active">Add Work</a>
+        <a href="categories.html">Categories</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="messages.html">Messages</a>
+        <a href="hire-requests.html">Hire Requests</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <button type="button" class="sidebar-logout" id="logoutButton">Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-topbar">
+        <h1>Add New Project</h1>
+      </header>
+
+      <form id="projectForm" class="base-form admin-form" enctype="multipart/form-data">
+        <div class="form-row two-col">
+          <div>
+            <label for="project-title">Project Title</label>
+            <input type="text" id="project-title" name="title" required>
+          </div>
+          <div>
+            <label for="project-category">Category</label>
+            <select id="project-category" name="category_id" required></select>
+          </div>
+        </div>
+
+        <div>
+          <label for="project-description">Description</label>
+          <textarea id="project-description" name="description" rows="6" required></textarea>
+        </div>
+
+        <div class="form-row two-col">
+          <div>
+            <label for="project-client">Client</label>
+            <input type="text" id="project-client" name="client">
+          </div>
+          <div>
+            <label for="project-date">Project Date</label>
+            <input type="date" id="project-date" name="project_date">
+          </div>
+        </div>
+
+        <div class="form-row two-col">
+          <div>
+            <label for="project-tools">Tools</label>
+            <input type="text" id="project-tools" name="tools">
+          </div>
+          <div>
+            <label for="project-type">Project Type</label>
+            <input type="text" id="project-type" name="project_type">
+          </div>
+        </div>
+
+        <div class="checkbox-wrap">
+          <label><input type="checkbox" name="featured" value="1"> Featured</label>
+        </div>
+
+        <div>
+          <label for="project-image">Project Image</label>
+          <input type="file" id="project-image" name="image" accept="image/jpeg,image/png,image/webp">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Project</button>
+      </form>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

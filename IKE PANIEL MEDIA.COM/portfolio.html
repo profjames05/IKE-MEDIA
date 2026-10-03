@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Graphic Designer</title>
+  <meta name="description" content="Explore creative design projects across branding, digital media, print marketing, and visual identity work.">
+  <meta property="og:title" content="Portfolio | Graphic Designer">
+  <meta property="og:description" content="Portfolio gallery of branding, print, and marketing design work.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="portfolio">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand" aria-label="Ike Peniel Media home"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"><span class="brand-wordmark"><strong>Ike Peniel Media</strong><small>Expanding brands through creativity</small></span></a>
+      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html" class="active">Portfolio</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#hire" class="btn btn-primary small-btn">Hire Me</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <div class="container narrow">
+        <p class="eyebrow">Portfolio</p>
+        <h1>My Portfolio</h1>
+      </div>
+    </section>
+
+    <section class="section-spacing">
+      <div class="container">
+        <div class="filter-bar" id="portfolio-filters" aria-label="Project categories">
+          <button class="filter-btn is-active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="Logos" type="button">Logos</button>
+          <button class="filter-btn" data-filter="Flyers" type="button">Flyers</button>
+          <button class="filter-btn" data-filter="Social Media" type="button">Social Media</button>
+          <button class="filter-btn" data-filter="Branding" type="button">Branding</button>
+          <button class="filter-btn" data-filter="Posters" type="button">Posters</button>
+          <button class="filter-btn" data-filter="Business Cards" type="button">Business Cards</button>
+          <button class="filter-btn" data-filter="Print Design" type="button">Print Design</button>
+        </div>
+        <div id="portfolio-grid" class="portfolio-grid portfolio-grid-large" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand brand-footer"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <p data-brand-name>Ike Peniel Media</p>
+        <p class="brand-motto" data-brand-motto>Expanding brands through creativity</p>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Social</h3>
+        <ul class="footer-links" id="footer-social-links"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p id="footer-copyright">© <span id="current-year"></span> Ike Peniel Media. All Rights Reserved.</p>
+        <p>Developed by JTECH SOLUTIONS</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="js/portfolio.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials | Graphic Designer Portfolio</title>
+  <meta name="description" content="Client testimonials and praise for creative branding and design support.">
+  <meta property="og:title" content="Testimonials | Graphic Designer Portfolio">
+  <meta property="og:description" content="Client testimonials and design project feedback.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="testimonials">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand" aria-label="Ike Peniel Media home"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"><span class="brand-wordmark"><strong>Ike Peniel Media</strong><small>Expanding brands through creativity</small></span></a>
+      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html" class="active">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html#hire" class="btn btn-primary small-btn">Hire Me</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <div class="container narrow">
+        <p class="eyebrow">Testimonials</p>
+        <h1>Happy clients, stronger brands.</h1>
+      </div>
+    </section>
+
+    <section class="section-spacing">
+      <div class="container">
+        <p class="testimonial-note" id="testimonial-note" hidden>Sample testimonials are shown for layout preview. Replace these with approved client feedback before publishing.</p>
+        <div id="testimonial-carousel" class="testimonial-carousel" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand brand-footer"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <p data-brand-name>Ike Peniel Media</p>
+        <p class="brand-motto" data-brand-motto>Expanding brands through creativity</p>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Social</h3>
+        <ul class="footer-links" id="footer-social-links"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="current-year"></span> Ike Peniel Media. All Rights Reserved.</p>
+        <p>Developed by JTECH SOLUTIONS</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/portfolio.js"></script>
+</body>
+</html>

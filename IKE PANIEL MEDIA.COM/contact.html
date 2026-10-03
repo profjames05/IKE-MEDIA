@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Graphic Designer Portfolio</title>
+  <meta name="description" content="Get in touch for branding, marketing design, and custom graphic design projects.">
+  <meta property="og:title" content="Contact | Graphic Designer Portfolio">
+  <meta property="og:description" content="Contact a professional graphic designer for custom design projects.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="contact">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand" aria-label="Ike Peniel Media home"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"><span class="brand-wordmark"><strong>Ike Peniel Media</strong><small>Expanding brands through creativity</small></span></a>
+      <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="contact.html#hire" class="btn btn-primary small-btn">Hire Me</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <div class="container narrow">
+        <p class="eyebrow">Contact</p>
+        <h1>Get In Touch</h1>
+      </div>
+    </section>
+
+    <section class="section-spacing contact-layout">
+      <div class="container contact-grid">
+        <div class="contact-info">
+          <div class="info-card">
+            <h3>WhatsApp</h3>
+            <p><a id="contact-whatsapp" href="https://wa.me/233532349114">+233 53 234 9114</a></p>
+          </div>
+          <div class="info-card">
+            <h3>Phone</h3>
+            <p><a id="contact-phone" href="tel:+233206963041">+233 20 696 3041</a></p>
+          </div>
+          <div class="info-card">
+            <h3>Email</h3>
+            <p><a id="contact-email" href="mailto:istawiah2134@gmail.com">istawiah2134@gmail.com</a></p>
+          </div>
+          <div class="info-card">
+            <h3>Location</h3>
+            <p id="contact-location">Ghana</p>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap">
+          <form id="contactForm" class="base-form">
+            <div class="form-row two-col">
+              <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+            </div>
+            <div class="form-row two-col">
+              <div>
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+              </div>
+              <div>
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject">
+              </div>
+            </div>
+            <div>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="hire" class="section-spacing dark-block">
+      <div class="container hire-wrap">
+        <div class="section-heading left-align">
+          <p class="eyebrow light">Hire Me</p>
+          <h2>Let’s build something impactful.</h2>
+        </div>
+        <form id="hireForm" class="base-form hire-form">
+          <div class="form-row two-col">
+            <div>
+              <label for="hire-name">Name</label>
+              <input type="text" id="hire-name" name="name" required>
+            </div>
+            <div>
+              <label for="hire-email">Email</label>
+              <input type="email" id="hire-email" name="email" required>
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div>
+              <label for="hire-phone">Phone</label>
+              <input type="tel" id="hire-phone" name="phone">
+            </div>
+            <div>
+              <label for="hire-type">Project Type</label>
+              <input type="text" id="hire-type" name="project_type">
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div>
+              <label for="hire-budget">Budget</label>
+              <input type="text" id="hire-budget" name="budget">
+            </div>
+            <div>
+              <label for="hire-deadline">Deadline</label>
+              <input type="text" id="hire-deadline" name="deadline">
+            </div>
+          </div>
+          <div>
+            <label for="hire-description">Description</label>
+            <textarea id="hire-description" name="description" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Hire Request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand brand-footer"><img class="brand-mark" src="assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
+        <p data-brand-name>Ike Peniel Media</p>
+        <p class="brand-motto" data-brand-motto>Expanding brands through creativity</p>
+      </div>
+      <div>
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Social</h3>
+        <ul class="footer-links" id="footer-social-links"></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="current-year"></span> Ike Peniel Media. All Rights Reserved.</p>
+        <p>Developed by JTECH SOLUTIONS</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
