@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../config/auth.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    jsonResponse(false, 'Invalid request method.', [], 405);
+}
+verifyCsrfToken();
+
 $_SESSION = [];
 if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();

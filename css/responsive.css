@@ -20,6 +20,17 @@
 
 @media (max-width: 768px) {
   .nav-toggle, .theme-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .contact-link {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 10px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .contact-link:active {
+    background: rgba(120, 87, 255, 0.16);
+    transform: scale(0.985);
+  }
   .site-nav {
     position: absolute;
     top: 76px;

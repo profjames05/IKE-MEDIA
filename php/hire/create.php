@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     jsonResponse(false, 'Invalid request method.', [], 405);
 }
 
+verifyCsrfToken();
+
 $name = sanitizeInput($_POST['name'] ?? '');
 $email = sanitizeInput($_POST['email'] ?? '');
 $phone = sanitizeInput($_POST['phone'] ?? '');

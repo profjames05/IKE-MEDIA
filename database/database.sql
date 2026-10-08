@@ -107,10 +107,6 @@ CREATE TABLE IF NOT EXISTS services (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
-INSERT INTO admins (name, email, password) VALUES
-('Admin User', 'admin@designer.com', 'admin123')
-ON DUPLICATE KEY UPDATE email = VALUES(email), password = VALUES(password);
-
 INSERT INTO categories (name, slug, description) VALUES
 ('Logos', 'logos', 'Professional logo creation and visual identity systems.'),
 ('Flyers', 'flyers', 'Promotional design for campaigns, launches, and events.'),
@@ -132,13 +128,13 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ('designer_phone', '+233 20 696 3041'),
 ('designer_whatsapp', '+233 53 234 9114'),
 ('designer_location', 'Ghana'),
-('facebook', 'https://facebook.com'),
-('instagram', 'https://instagram.com'),
-('tiktok', 'https://tiktok.com'),
-('linkedin', 'https://linkedin.com'),
-('behance', 'https://behance.net'),
-('dribbble', 'https://dribbble.com'),
-('youtube', 'https://youtube.com'),
+('facebook', ''),
+('instagram', ''),
+('tiktok', ''),
+('linkedin', ''),
+('behance', ''),
+('dribbble', ''),
+('youtube', ''),
 ('hero_heading', 'Design that speaks before you do.'),
 ('hero_description', 'Ghanaian graphic designer creating distinctive brand identities, campaign visuals, and digital experiences that help ambitious businesses stand out.'),
 ('hero_image', 'assets/images/profile/ike-peniel.jpg'),

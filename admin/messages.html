@@ -35,14 +35,26 @@
     <main class="admin-content">
       <header class="admin-topbar">
         <h1>Messages</h1>
+        <span id="messageCount" class="admin-count">0 messages</span>
       </header>
+      <div class="filter-box message-filter">
+        <input id="messageSearch" type="search" placeholder="Search name, email, phone, subject, or message" aria-label="Search messages">
+        <select id="messageStatusFilter" aria-label="Filter messages by status">
+          <option value="">All statuses</option>
+          <option value="unread">Unread</option>
+          <option value="read">Read</option>
+          <option value="replied">Replied</option>
+        </select>
+      </div>
       <div class="table-wrap">
-        <table class="data-table">
+        <table class="data-table message-table">
           <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Subject</th>
+              <th>Message</th>
               <th>Status</th>
               <th>Date</th>
               <th>Actions</th>

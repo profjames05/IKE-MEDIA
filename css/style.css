@@ -425,6 +425,32 @@ body.light-mode .hero-portrait-caption {
 .info-card { padding: 22px; }
 .info-card h3 { margin: 0 0 10px; }
 .info-card p { margin: 0; color: var(--text-muted); }
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--purple-bright);
+  font-weight: 700;
+  border-radius: 8px;
+  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.contact-link::after {
+  content: '↗';
+  color: var(--blue);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+.contact-link:hover {
+  color: var(--text-primary);
+  background: rgba(120, 87, 255, 0.1);
+  transform: translateX(3px);
+}
+.contact-link:hover::after { transform: translate(2px, -2px); }
+.contact-link:focus-visible {
+  outline: 3px solid rgba(71, 139, 255, 0.55);
+  outline-offset: 5px;
+}
+.contact-link:active { transform: translateX(3px) scale(0.98); }
 .contact-form-wrap, .hire-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 22px; padding: 24px; }
 .base-form {
   display: grid;
@@ -452,7 +478,13 @@ body.light-mode input, body.light-mode textarea, body.light-mode select {
 }
 textarea { resize: vertical; min-height: 130px; }
 input:focus, textarea:focus, select:focus { outline: 2px solid rgba(120,87,255,0.65); outline-offset: 2px; }
-input:focus, textarea:focus, select:focus { outline: 2px solid rgba(120,87,255,0.65); outline-offset: 2px; }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--danger); }
+.field-error, .form-error { min-height: 1.2em; color: var(--danger); font-size: 0.78rem; }
+.form-error { margin: -8px 0 0; }
+.password-field { position: relative; }
+.password-field input { padding-right: 105px; }
+.password-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); padding: 7px 9px; border: 0; border-radius: 8px; background: rgba(120,87,255,0.14); color: var(--purple-bright); cursor: pointer; font-size: 0.75rem; }
+button:disabled { cursor: wait; opacity: 0.65; transform: none !important; }
 
 .filter-bar {
   display: flex;

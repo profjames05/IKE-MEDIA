@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/database.php';
 
+session_set_cookie_params([
+    'httponly' => true,
+    'samesite' => 'Lax',
+    'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    'path' => '/',
+    'maxage' => 1800,
+]);
+
 session_start();
 
 if (empty($_SESSION['csrf_token'])) {
@@ -18,12 +26,8 @@ function csrfToken(): string
 function verifyCsrfToken(): void
 {
     $submitted = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-    if ($submitted === '') {
-        return;
-    }
-
-    if (!hash_equals($_SESSION['csrf_token'] ?? '', (string) $submitted)) {
-        jsonResponse(false, 'Invalid security token.', [], 419);
+    if (!is_string($submitted) || !hash_equals($_SESSION['csrf_token'] ?? '', $submitted)) {
+        jsonResponse(false, 'Invalid or missing security token.', [], 419);
     }
 }
 

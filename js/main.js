@@ -90,13 +90,13 @@ const FALLBACK_SETTINGS = {
   designer_location: 'Ghana',
   hero_image: 'assets/images/profile/ike-peniel.jpg',
   profile_image: 'assets/images/profile/ike-peniel.jpg',
-  facebook: '#',
-  instagram: '#',
-  tiktok: '#',
-  linkedin: '#',
-  behance: '#',
-  dribbble: '#',
-  youtube: '#',
+  facebook: '',
+  instagram: '',
+  tiktok: '',
+  linkedin: '',
+  behance: '',
+  dribbble: '',
+  youtube: '',
 };
 
 function getApiUrl(path) {
@@ -118,15 +118,28 @@ async function fetchJsonSafe(url, fallbackValue = null) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function safeImageUrl(value) {
+  return /^https?:\/\//i.test(String(value || '')) ? escapeHtml(value) : '';
+}
+
 function renderProjectCards(projects) {
   return projects.map((project) => `
-    <article class="project-card" data-category="${project.category_name || 'Design'}">
-      <div class="project-image"><img src="${project.image}" alt="${project.title}"></div>
+    <article class="project-card" data-category="${escapeHtml(project.category_name || 'Design')}">
+      <div class="project-image"><img src="${safeImageUrl(project.image)}" alt="${escapeHtml(project.title)}"></div>
       <div class="project-body">
-        <div class="project-meta"><span>${project.category_name || 'Design'}</span><span>${project.project_type || 'Creative'}</span></div>
-        <h3>${project.title}</h3>
-        <p>${(project.description || '').slice(0, 120)}...</p>
-        <a href="project-details.html?id=${project.id}" class="btn btn-secondary">View Details</a>
+        <div class="project-meta"><span>${escapeHtml(project.category_name || 'Design')}</span><span>${escapeHtml(project.project_type || 'Creative')}</span></div>
+        <h3>${escapeHtml(project.title)}</h3>
+        <p>${escapeHtml((project.description || '').slice(0, 120))}...</p>
+        <a href="project-details.html?id=${Number(project.id) || ''}" class="btn btn-secondary">View Details</a>
       </div>
     </article>
   `).join('');
@@ -135,9 +148,9 @@ function renderProjectCards(projects) {
 function renderServiceCards(services) {
   return services.map((service) => `
     <article class="service-card">
-      <div class="service-icon">${service.icon || '✦'}</div>
-      <h3>${service.title}</h3>
-      <p>${service.description}</p>
+      <div class="service-icon">${escapeHtml(service.icon || '✦')}</div>
+      <h3>${escapeHtml(service.title)}</h3>
+      <p>${escapeHtml(service.description)}</p>
       <a href="contact.html#hire" class="btn btn-secondary">Request Service</a>
     </article>
   `).join('');
@@ -147,14 +160,14 @@ function renderTestimonialCards(testimonials) {
   return testimonials.map((item) => `
     <article class="testimonial-card">
       <div class="testimonial-head">
-        <img src="${item.image}" alt="${item.name}">
+        <img src="${safeImageUrl(item.image)}" alt="${escapeHtml(item.name)}">
         <div>
-          <h3>${item.name}</h3>
-          <span>${item.company || 'Client'} • ${item.position || 'Customer'}</span>
+          <h3>${escapeHtml(item.name)}</h3>
+          <span>${escapeHtml(item.company || 'Client')} • ${escapeHtml(item.position || 'Customer')}</span>
         </div>
       </div>
-      <div class="rating" aria-label="${item.rating} out of 5 stars">${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</div>
-      <p>“${item.message}”</p>
+      <div class="rating" aria-label="${Number(item.rating) || 0} out of 5 stars">${'★'.repeat(Number(item.rating) || 0)}${'☆'.repeat(Math.max(0, 5 - (Number(item.rating) || 0)))}</div>
+      <p>“${escapeHtml(item.message)}”</p>
     </article>
   `).join('');
 }
@@ -185,6 +198,14 @@ function setAttribute(id, attribute, value) {
   if (el) {
     el.setAttribute(attribute, value || '');
   }
+}
+
+function formatGhanaianPhone(value) {
+  const digits = String(value || '').replace(/\D/g, '');
+  if (digits.startsWith('233') && digits.length >= 12) {
+    return `+233 ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
+  }
+  return String(value || '').trim();
 }
 
 function setupTheme() {
@@ -226,6 +247,28 @@ function setupNavigation() {
     const isOpen = nav.classList.toggle('open');
     toggleButton.setAttribute('aria-expanded', String(isOpen));
   });
+}
+
+function setupHiddenAdminAccess() {
+  const logo = document.querySelector('[data-admin-logo]');
+  if (!logo) return;
+
+  let clickCount = 0;
+  let resetTimer;
+  const navigateToLogin = () => window.location.assign('admin/index.html');
+  const handleLogoClick = (event) => {
+    clickCount += 1;
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { clickCount = 0; }, 1500);
+    if (clickCount === 3) {
+      event.preventDefault();
+      clearTimeout(resetTimer);
+      logo.removeEventListener('click', handleLogoClick);
+      navigateToLogin();
+    }
+  };
+
+  logo.addEventListener('click', handleLogoClick);
 }
 
 function populateCurrentYear() {
@@ -318,12 +361,14 @@ async function loadSettings() {
     setText('website-description', settings.website_description || 'Expanding brands through creativity. Ghanaian graphic design for brand identity, campaigns, and visual communication.');
     setText('footer-copyright', settings.footer_copyright || '© 2026 Ike Peniel Media. All Rights Reserved.');
     setText('contact-email', settings.designer_email || 'istawiah2134@gmail.com');
-    setText('contact-phone', settings.designer_phone || '+233 20 696 3041');
-    setText('contact-whatsapp', settings.designer_whatsapp || '+233 53 234 9114');
+    const phoneNumber = settings.designer_phone || '+233 20 696 3041';
+    const whatsappNumber = settings.designer_whatsapp || '+233 53 234 9114';
+    setText('contact-phone', formatGhanaianPhone(phoneNumber));
+    setText('contact-whatsapp', formatGhanaianPhone(whatsappNumber));
     setText('contact-location', settings.designer_location || 'Ghana');
     setAttribute('contact-email', 'href', `mailto:${settings.designer_email || 'istawiah2134@gmail.com'}`);
-    setAttribute('contact-phone', 'href', `tel:${(settings.designer_phone || '+233 20 696 3041').replace(/[^+\d]/g, '')}`);
-    setAttribute('contact-whatsapp', 'href', `https://wa.me/${(settings.designer_whatsapp || '+233 53 234 9114').replace(/\D/g, '')}`);
+    setAttribute('contact-phone', 'href', `tel:+${String(phoneNumber).replace(/\D/g, '')}`);
+    setAttribute('contact-whatsapp', 'href', `https://wa.me/${String(whatsappNumber).replace(/\D/g, '')}`);
     const heroImage = settings.hero_image && !settings.hero_image.includes('photo-1531123897727-8f129e1688ce')
       ? settings.hero_image
       : FALLBACK_SETTINGS.hero_image;
@@ -399,6 +444,7 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     setupTheme();
     setupNavigation();
+    setupHiddenAdminAccess();
     populateCurrentYear();
     loadSettings();
     loadFeaturedProjects();
@@ -408,6 +454,7 @@ if (document.readyState === 'loading') {
 } else {
   setupTheme();
   setupNavigation();
+  setupHiddenAdminAccess();
   populateCurrentYear();
   loadSettings();
   loadFeaturedProjects();

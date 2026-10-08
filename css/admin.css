@@ -152,11 +152,20 @@ body.light-mode .admin-sidebar { background: #e9e9f8; }
 .action-btn.primary { background: linear-gradient(135deg, rgba(120,87,255,0.22), rgba(71,139,255,0.22)); }
 
 .filter-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-bottom: 18px;
 }
-.filter-box input {
-  max-width: 420px;
-}
+.filter-box input { max-width: 420px; }
+.filter-box select { max-width: 220px; }
+.admin-count { color: var(--text-soft); font-size: 0.9rem; }
+.message-table { min-width: 1120px; }
+.message-preview { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-badge { display: inline-flex; padding: 5px 9px; border-radius: 999px; background: rgba(120,87,255,0.14); color: var(--purple-bright); text-transform: capitalize; }
+.status-badge.read { background: rgba(52,211,153,0.12); color: var(--success); }
+.status-badge.replied { background: rgba(71,139,255,0.14); color: #8ec5ff; }
+.empty-state { color: var(--text-soft); text-align: center !important; padding: 34px !important; }
 .checkbox-wrap { display: flex; align-items: center; gap: 10px; }
 .checkbox-wrap input { width: auto; }
 .profile-panel { max-width: 720px; }

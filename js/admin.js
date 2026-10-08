@@ -12,29 +12,82 @@ function showToast(message, type = 'success') {
   setTimeout(() => toast.remove(), 3200);
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+async function getCsrfToken() {
+  const response = await fetch(`${adminApiBase}/auth/csrf.php`, { credentials: 'same-origin' });
+  const result = await response.json();
+  if (!response.ok || !result.success || !result.csrf_token) {
+    throw new Error('Unable to secure this request.');
+  }
+  return result.csrf_token;
+}
+
 async function fetchJson(url, options = {}) {
-  const response = await fetch(url, options);
-  const data = await response.json();
-  if (!data.success) {
+  const requestOptions = { ...options, credentials: options.credentials || 'same-origin' };
+  if (requestOptions.method && requestOptions.method.toUpperCase() === 'POST') {
+    const token = await getCsrfToken();
+    if (requestOptions.body instanceof FormData) {
+      requestOptions.body.append('csrf_token', token);
+    } else if (requestOptions.body instanceof URLSearchParams) {
+      requestOptions.body.set('csrf_token', token);
+    } else {
+      requestOptions.headers = { ...(requestOptions.headers || {}), 'X-CSRF-Token': token };
+    }
+  }
+
+  const response = await fetch(url, requestOptions);
+  const contentType = response.headers.get('content-type') || '';
+  const data = contentType.includes('application/json') ? await response.json() : {};
+  if (!response.ok || !data.success) {
     throw new Error(data.message || 'Request failed');
   }
   return data;
 }
 
 if (document.getElementById('adminLoginForm')) {
-  document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
+  const loginForm = document.getElementById('adminLoginForm');
+  const passwordInput = document.getElementById('admin-password');
+  const passwordToggle = document.getElementById('togglePassword');
 
+  passwordToggle?.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    passwordToggle.textContent = isPassword ? 'Hide password' : 'Show password';
+    passwordToggle.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+    passwordInput.focus();
+  });
+
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(loginForm);
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    const error = document.getElementById('adminLoginError');
+    error.textContent = '';
+
+    if (!loginForm.checkValidity()) {
+      loginForm.reportValidity();
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Signing in…';
     try {
       const result = await fetchJson(`${adminApiBase}/auth/login.php`, { method: 'POST', body: formData });
       showToast(result.message || 'Login successful.', 'success');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 600);
+      window.location.assign(result.redirect || 'dashboard.html');
     } catch (error) {
-      showToast(error.message || 'Login failed.', 'error');
+      error.textContent = error.message || 'Login failed. Please try again.';
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Login';
     }
   });
 }
@@ -42,10 +95,15 @@ if (document.getElementById('adminLoginForm')) {
 if (document.getElementById('logoutButton')) {
   document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
-      await fetchJson(`${adminApiBase}/auth/logout.php`);
-      window.location.href = 'index.html';
+      await fetchJson(`${adminApiBase}/auth/logout.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams().toString(),
+      });
     } catch (error) {
-      window.location.href = 'index.html';
+      console.warn('Logout request failed:', error);
+    } finally {
+      window.location.assign('../index.html');
     }
   });
 }
@@ -102,7 +160,7 @@ if (document.getElementById('projectForm')) {
     try {
       const result = await fetchJson(`${adminApiBase}/categories/read.php`);
       const categories = result.categories || [];
-      selectElement.innerHTML = categories.map((category) => `<option value="${category.id}">${category.name}</option>`).join('');
+      selectElement.innerHTML = categories.map((category) => `<option value="${Number(category.id) || ''}">${escapeHtml(category.name)}</option>`).join('');
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +190,7 @@ if (document.getElementById('editProjectForm')) {
       const categoryResult = await fetchJson(`${adminApiBase}/categories/read.php`);
       const categories = categoryResult.categories || [];
       const categorySelect = document.getElementById('edit-project-category');
-      categorySelect.innerHTML = categories.map((category) => `<option value="${category.id}">${category.name}</option>`).join('');
+      categorySelect.innerHTML = categories.map((category) => `<option value="${Number(category.id) || ''}">${escapeHtml(category.name)}</option>`).join('');
       categorySelect.value = String(project.category_id || categories[0]?.id || '');
     } catch (error) {
       showToast('Unable to load project.', 'error');
@@ -162,15 +220,15 @@ if (document.getElementById('projectsTableBody')) {
       const tbody = document.getElementById('projectsTableBody');
       tbody.innerHTML = projects.map((project) => `
         <tr>
-          <td>${project.title}</td>
-          <td>${project.category_name || 'N/A'}</td>
-          <td>${project.client || 'N/A'}</td>
-          <td>${project.project_date || 'N/A'}</td>
+          <td>${escapeHtml(project.title)}</td>
+          <td>${escapeHtml(project.category_name || 'N/A')}</td>
+          <td>${escapeHtml(project.client || 'N/A')}</td>
+          <td>${escapeHtml(project.project_date || 'N/A')}</td>
           <td>${Number(project.featured) === 1 ? 'Yes' : 'No'}</td>
           <td class="table-actions">
-            <a href="../project-details.html?id=${project.id}" class="action-btn" target="_blank">View</a>
-            <a href="edit-project.html?id=${project.id}" class="action-btn primary">Edit</a>
-            <button class="action-btn danger" data-delete-id="${project.id}" data-delete-type="project">Delete</button>
+            <a href="../project-details.html?id=${Number(project.id) || ''}" class="action-btn" target="_blank">View</a>
+            <a href="edit-project.html?id=${Number(project.id) || ''}" class="action-btn primary">Edit</a>
+            <button class="action-btn danger" data-delete-id="${Number(project.id) || ''}" data-delete-type="project">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -203,15 +261,15 @@ if (document.getElementById('projectsTableBody')) {
     const tbody = document.getElementById('projectsTableBody');
     tbody.innerHTML = projects.map((project) => `
       <tr>
-        <td>${project.title}</td>
-        <td>${project.category_name || 'N/A'}</td>
-        <td>${project.client || 'N/A'}</td>
-        <td>${project.project_date || 'N/A'}</td>
+        <td>${escapeHtml(project.title)}</td>
+        <td>${escapeHtml(project.category_name || 'N/A')}</td>
+        <td>${escapeHtml(project.client || 'N/A')}</td>
+        <td>${escapeHtml(project.project_date || 'N/A')}</td>
         <td>${Number(project.featured) === 1 ? 'Yes' : 'No'}</td>
         <td class="table-actions">
-          <a href="../project-details.html?id=${project.id}" class="action-btn" target="_blank">View</a>
-          <a href="edit-project.html?id=${project.id}" class="action-btn primary">Edit</a>
-          <button class="action-btn danger" data-delete-id="${project.id}" data-delete-type="project">Delete</button>
+          <a href="../project-details.html?id=${Number(project.id) || ''}" class="action-btn" target="_blank">View</a>
+          <a href="edit-project.html?id=${Number(project.id) || ''}" class="action-btn primary">Edit</a>
+          <button class="action-btn danger" data-delete-id="${Number(project.id) || ''}" data-delete-type="project">Delete</button>
         </td>
       </tr>
     `).join('');
@@ -228,11 +286,11 @@ if (document.getElementById('categoriesTableBody')) {
       const tbody = document.getElementById('categoriesTableBody');
       tbody.innerHTML = categories.map((category) => `
         <tr>
-          <td>${category.name}</td>
-          <td>${category.description || 'N/A'}</td>
+          <td>${escapeHtml(category.name)}</td>
+          <td>${escapeHtml(category.description || 'N/A')}</td>
           <td class="table-actions">
-            <button class="action-btn primary" data-edit-category-id="${category.id}" data-edit-category-name="${category.name}" data-edit-category-description="${category.description || ''}">Edit</button>
-            <button class="action-btn danger" data-delete-category-id="${category.id}">Delete</button>
+            <button class="action-btn primary" data-edit-category-id="${Number(category.id) || ''}" data-edit-category-name="${escapeHtml(category.name)}" data-edit-category-description="${escapeHtml(category.description || '')}">Edit</button>
+            <button class="action-btn danger" data-delete-category-id="${Number(category.id) || ''}">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -294,12 +352,12 @@ if (document.getElementById('testimonialsTableBody')) {
       const tbody = document.getElementById('testimonialsTableBody');
       tbody.innerHTML = testimonials.map((test) => `
         <tr>
-          <td>${test.name}</td>
-          <td>${test.company || 'N/A'}</td>
-          <td>${'★'.repeat(test.rating)}${'☆'.repeat(5 - test.rating)}</td>
-          <td>${test.status}</td>
+          <td>${escapeHtml(test.name)}</td>
+          <td>${escapeHtml(test.company || 'N/A')}</td>
+          <td>${'★'.repeat(Number(test.rating) || 0)}${'☆'.repeat(Math.max(0, 5 - (Number(test.rating) || 0)))}</td>
+          <td>${escapeHtml(test.status)}</td>
           <td class="table-actions">
-            <button class="action-btn danger" data-delete-testimonial-id="${test.id}">Delete</button>
+            <button class="action-btn danger" data-delete-testimonial-id="${Number(test.id) || ''}">Delete</button>
           </td>
         </tr>
       `).join('');
@@ -343,24 +401,36 @@ if (document.getElementById('testimonialsTableBody')) {
 }
 
 if (document.getElementById('messagesTableBody')) {
+  const messageSearch = document.getElementById('messageSearch');
+  const messageStatusFilter = document.getElementById('messageStatusFilter');
+  const messageCount = document.getElementById('messageCount');
+
   async function loadMessagesTable() {
     try {
-      const result = await fetchJson(`${adminApiBase}/messages/read.php`);
+      const params = new URLSearchParams({
+        limit: '50',
+        search: messageSearch?.value || '',
+        status: messageStatusFilter?.value || '',
+      });
+      const result = await fetchJson(`${adminApiBase}/messages/read.php?${params.toString()}`);
       const messages = result.messages || [];
       const tbody = document.getElementById('messagesTableBody');
-      tbody.innerHTML = messages.map((message) => `
+      messageCount.textContent = `${result.total || messages.length} message${(result.total || messages.length) === 1 ? '' : 's'}`;
+      tbody.innerHTML = messages.length ? messages.map((message) => `
         <tr>
-          <td>${message.name}</td>
-          <td>${message.email}</td>
-          <td>${message.subject || 'N/A'}</td>
-          <td>${message.status}</td>
-          <td>${message.created_at ? new Date(message.created_at).toLocaleDateString() : 'N/A'}</td>
+          <td><strong>${escapeHtml(message.name)}</strong></td>
+          <td><a href="mailto:${escapeHtml(message.email)}">${escapeHtml(message.email)}</a></td>
+          <td>${escapeHtml(message.phone || 'N/A')}</td>
+          <td>${escapeHtml(message.subject || 'N/A')}</td>
+          <td class="message-preview">${escapeHtml(message.message)}</td>
+          <td><span class="status-badge ${escapeHtml(message.status)}">${escapeHtml(message.status)}</span></td>
+          <td>${message.created_at ? new Date(message.created_at).toLocaleString() : 'N/A'}</td>
           <td class="table-actions">
-            <button class="action-btn primary" data-message-status-id="${message.id}" data-status="read">Mark Read</button>
-            <button class="action-btn danger" data-delete-message-id="${message.id}">Delete</button>
+            <button class="action-btn primary" data-message-status-id="${Number(message.id) || ''}" data-status="read">Mark Read</button>
+            <button class="action-btn danger" data-delete-message-id="${Number(message.id) || ''}">Delete</button>
           </td>
         </tr>
-      `).join('');
+      `).join('') : '<tr><td colspan="8" class="empty-state">No messages match these filters.</td></tr>';
 
       document.querySelectorAll('[data-delete-message-id]').forEach((button) => {
         button.addEventListener('click', async () => {
@@ -398,6 +468,8 @@ if (document.getElementById('messagesTableBody')) {
     }
   }
 
+  messageSearch?.addEventListener('input', loadMessagesTable);
+  messageStatusFilter?.addEventListener('change', loadMessagesTable);
   loadMessagesTable();
 }
 
@@ -409,13 +481,13 @@ if (document.getElementById('hireRequestsTableBody')) {
       const tbody = document.getElementById('hireRequestsTableBody');
       tbody.innerHTML = requests.map((request) => `
         <tr>
-          <td>${request.name}</td>
-          <td>${request.project_type || 'N/A'}</td>
-          <td>${request.budget || 'N/A'}</td>
-          <td>${request.status}</td>
+          <td>${escapeHtml(request.name)}</td>
+          <td>${escapeHtml(request.project_type || 'N/A')}</td>
+          <td>${escapeHtml(request.budget || 'N/A')}</td>
+          <td>${escapeHtml(request.status)}</td>
           <td>${request.created_at ? new Date(request.created_at).toLocaleDateString() : 'N/A'}</td>
           <td class="table-actions">
-            <button class="action-btn primary" data-hire-status-id="${request.id}" data-status="contacted">Contacted</button>
+            <button class="action-btn primary" data-hire-status-id="${Number(request.id) || ''}" data-status="contacted">Contacted</button>
           </td>
         </tr>
       `).join('');
@@ -460,17 +532,17 @@ if (document.getElementById('total-works')) {
 
       const projectList = await fetchJson(`${adminApiBase}/projects/read.php?limit=5`);
       document.getElementById('recent-projects').innerHTML = (projectList.projects || []).map((project) => `
-        <div class="mini-list-item"><span>${project.title}</span><small>${project.category_name || 'Design'}</small></div>
+        <div class="mini-list-item"><span>${escapeHtml(project.title)}</span><small>${escapeHtml(project.category_name || 'Design')}</small></div>
       `).join('');
 
       const messages = messageResponse.messages || [];
       document.getElementById('recent-messages').innerHTML = messages.slice(0, 5).map((message) => `
-        <div class="mini-list-item"><span>${message.name}</span><small>${message.status}</small></div>
+        <div class="mini-list-item"><span>${escapeHtml(message.name)}</span><small>${escapeHtml(message.status)}</small></div>
       `).join('');
 
       const categories = categoryResponse.categories || [];
       document.getElementById('category-stats').innerHTML = categories.map((category) => `
-        <div class="category-stat"><span>${category.name}</span><strong>${(projectResponse.stats && projectResponse.stats.total) ? 'Active' : '0'}</strong></div>
+        <div class="category-stat"><span>${escapeHtml(category.name)}</span><strong>${(projectResponse.stats && projectResponse.stats.total) ? 'Active' : '0'}</strong></div>
       `).join('');
     } catch (error) {
       console.error(error);
@@ -536,11 +608,11 @@ if (document.getElementById('mediaUploadForm')) {
 
       target.innerHTML = files.map((file) => `
         <div class="panel">
-          <img src="${file.file_path}" alt="${file.name}" style="max-height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 12px;" />
-          <div><strong>${file.name}</strong></div>
+          <img src="${safeImageUrl(file.file_path)}" alt="${escapeHtml(file.name)}" style="max-height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 12px;" />
+          <div><strong>${escapeHtml(file.name)}</strong></div>
           <div class="table-actions" style="margin-top: 10px;">
-            <a href="${file.file_path}" class="action-btn primary" target="_blank">View</a>
-            <button class="action-btn danger" data-delete-media-id="${file.id}">Delete</button>
+            <a href="${safeImageUrl(file.file_path)}" class="action-btn primary" target="_blank">View</a>
+            <button class="action-btn danger" data-delete-media-id="${Number(file.id) || ''}">Delete</button>
           </div>
         </div>
       `).join('');
@@ -593,12 +665,12 @@ if (document.getElementById('serviceForm')) {
       target.innerHTML = services.map((service) => `
         <div class="mini-list-item">
           <div>
-            <strong>${service.icon || '✦'} ${service.title}</strong>
-            <div>${service.description}</div>
+            <strong>${escapeHtml(service.icon || '✦')} ${escapeHtml(service.title)}</strong>
+            <div>${escapeHtml(service.description)}</div>
           </div>
           <div class="table-actions">
-            <button class="action-btn primary" data-edit-service-id="${service.id}" data-edit-title="${service.title}" data-edit-icon="${service.icon || '✦'}" data-edit-description="${service.description}" data-edit-sort-order="${service.sort_order}" data-edit-published="${service.published}">Edit</button>
-            <button class="action-btn danger" data-delete-service-id="${service.id}">Delete</button>
+            <button class="action-btn primary" data-edit-service-id="${Number(service.id) || ''}" data-edit-title="${escapeHtml(service.title)}" data-edit-icon="${escapeHtml(service.icon || '✦')}" data-edit-description="${escapeHtml(service.description)}" data-edit-sort-order="${Number(service.sort_order) || 0}" data-edit-published="${Number(service.published) === 1}">Edit</button>
+            <button class="action-btn danger" data-delete-service-id="${Number(service.id) || ''}">Delete</button>
           </div>
         </div>
       `).join('');

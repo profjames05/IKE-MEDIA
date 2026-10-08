@@ -27,17 +27,30 @@ async function fetchJsonSafe(url, fallbackValue = null) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function safeImageUrl(value) {
+  return /^https?:\/\//i.test(String(value || '')) ? escapeHtml(value) : '';
+}
+
 function renderPortfolio(projects) {
   if (!portfolioGrid) return;
 
   portfolioGrid.innerHTML = projects.map((project) => `
-    <article class="project-card" data-category="${project.category_name || 'Design'}">
-      <div class="project-image"><img src="${project.image}" alt="${project.title}"></div>
+    <article class="project-card" data-category="${escapeHtml(project.category_name || 'Design')}">
+      <div class="project-image"><img src="${safeImageUrl(project.image)}" alt="${escapeHtml(project.title)}"></div>
       <div class="project-body">
-        <div class="project-meta"><span>${project.category_name || 'Design'}</span><span>${project.project_type || 'Creative'}</span></div>
-        <h3>${project.title}</h3>
-        <p>${(project.description || '').slice(0, 120)}...</p>
-        <a href="project-details.html?id=${project.id}" class="btn btn-secondary">View Details</a>
+        <div class="project-meta"><span>${escapeHtml(project.category_name || 'Design')}</span><span>${escapeHtml(project.project_type || 'Creative')}</span></div>
+        <h3>${escapeHtml(project.title)}</h3>
+        <p>${escapeHtml((project.description || '').slice(0, 120))}...</p>
+        <a href="project-details.html?id=${Number(project.id) || ''}" class="btn btn-secondary">View Details</a>
       </div>
     </article>
   `).join('');

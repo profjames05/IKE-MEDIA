@@ -19,15 +19,19 @@
         <div class="brand brand-admin"><img class="brand-mark" src="../assets/images/logo/ike-peniel-logo.png" alt="Ike Peniel Media logo"></div>
         <h1>Admin Login</h1>
       </div>
-      <form id="adminLoginForm" class="base-form admin-form">
+      <form id="adminLoginForm" class="base-form admin-form" novalidate>
         <div>
-          <label for="admin-email">Email</label>
-          <input type="email" id="admin-email" name="email" placeholder="admin@designer.com" required>
+          <label for="admin-email">Admin Email</label>
+          <input type="email" id="admin-email" name="email" autocomplete="username" placeholder="admin@designer.com" required>
         </div>
         <div>
           <label for="admin-password">Password</label>
-          <input type="password" id="admin-password" name="password" required>
+          <div class="password-field">
+            <input type="password" id="admin-password" name="password" autocomplete="current-password" minlength="8" required>
+            <button id="togglePassword" class="password-toggle" type="button" aria-label="Show password">Show password</button>
+          </div>
         </div>
+        <p id="adminLoginError" class="form-error" role="alert"></p>
         <button type="submit" class="btn btn-primary full-width">Login</button>
       </form>
     </div>

@@ -1,5 +1,18 @@
 const projectDetailsTarget = document.getElementById('project-details');
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function safeImageUrl(value) {
+  return /^https?:\/\//i.test(String(value || '')) ? escapeHtml(value) : '';
+}
+
 async function fetchJsonSafe(url, fallbackValue = null) {
   try {
     const response = await fetch(url);
@@ -50,22 +63,22 @@ async function loadProjectDetails() {
 
     projectDetailsTarget.innerHTML = `
       <div class="project-detail-card">
-        <div class="project-detail-image"><img src="${project.image}" alt="${project.title}"></div>
+        <div class="project-detail-image"><img src="${safeImageUrl(project.image)}" alt="${escapeHtml(project.title)}"></div>
         <div class="project-detail-body">
-          <div class="project-meta"><span>${project.category_name || 'Design'}</span><span>${project.project_type || 'Project'}</span></div>
-          <h2>${project.title}</h2>
-          <p>${project.description}</p>
+          <div class="project-meta"><span>${escapeHtml(project.category_name || 'Design')}</span><span>${escapeHtml(project.project_type || 'Project')}</span></div>
+          <h2>${escapeHtml(project.title)}</h2>
+          <p>${escapeHtml(project.description)}</p>
           <div class="project-meta-list">
-            <div><strong>Client</strong><span>${project.client || 'N/A'}</span></div>
-            <div><strong>Date</strong><span>${project.project_date || 'N/A'}</span></div>
-            <div><strong>Tools</strong><span>${project.tools || 'N/A'}</span></div>
-            <div><strong>Project Type</strong><span>${project.project_type || 'N/A'}</span></div>
+            <div><strong>Client</strong><span>${escapeHtml(project.client || 'N/A')}</span></div>
+            <div><strong>Date</strong><span>${escapeHtml(project.project_date || 'N/A')}</span></div>
+            <div><strong>Tools</strong><span>${escapeHtml(project.tools || 'N/A')}</span></div>
+            <div><strong>Project Type</strong><span>${escapeHtml(project.project_type || 'N/A')}</span></div>
           </div>
         </div>
       </div>
       <div class="project-nav">
-        ${previousProject ? `<a href="project-details.html?id=${previousProject.id}" class="btn btn-secondary">Previous Project</a>` : '<span class="btn btn-secondary disabled">Previous Project</span>'}
-        ${nextProject ? `<a href="project-details.html?id=${nextProject.id}" class="btn btn-secondary">Next Project</a>` : '<span class="btn btn-secondary disabled">Next Project</span>'}
+        ${previousProject ? `<a href="project-details.html?id=${Number(previousProject.id) || ''}" class="btn btn-secondary">Previous Project</a>` : '<span class="btn btn-secondary disabled">Previous Project</span>'}
+        ${nextProject ? `<a href="project-details.html?id=${Number(nextProject.id) || ''}" class="btn btn-secondary">Next Project</a>` : '<span class="btn btn-secondary disabled">Next Project</span>'}
       </div>
     `;
   } catch (error) {
@@ -78,22 +91,22 @@ async function loadProjectDetails() {
 
     projectDetailsTarget.innerHTML = `
       <div class="project-detail-card">
-        <div class="project-detail-image"><img src="${fallbackProject.image}" alt="${fallbackProject.title}"></div>
+        <div class="project-detail-image"><img src="${safeImageUrl(fallbackProject.image)}" alt="${escapeHtml(fallbackProject.title)}"></div>
         <div class="project-detail-body">
-          <div class="project-meta"><span>${fallbackProject.category_name || 'Design'}</span><span>${fallbackProject.project_type || 'Project'}</span></div>
-          <h2>${fallbackProject.title}</h2>
-          <p>${fallbackProject.description}</p>
+          <div class="project-meta"><span>${escapeHtml(fallbackProject.category_name || 'Design')}</span><span>${escapeHtml(fallbackProject.project_type || 'Project')}</span></div>
+          <h2>${escapeHtml(fallbackProject.title)}</h2>
+          <p>${escapeHtml(fallbackProject.description)}</p>
           <div class="project-meta-list">
-            <div><strong>Client</strong><span>${fallbackProject.client || 'N/A'}</span></div>
-            <div><strong>Date</strong><span>${fallbackProject.project_date || 'N/A'}</span></div>
-            <div><strong>Tools</strong><span>${fallbackProject.tools || 'N/A'}</span></div>
-            <div><strong>Project Type</strong><span>${fallbackProject.project_type || 'N/A'}</span></div>
+            <div><strong>Client</strong><span>${escapeHtml(fallbackProject.client || 'N/A')}</span></div>
+            <div><strong>Date</strong><span>${escapeHtml(fallbackProject.project_date || 'N/A')}</span></div>
+            <div><strong>Tools</strong><span>${escapeHtml(fallbackProject.tools || 'N/A')}</span></div>
+            <div><strong>Project Type</strong><span>${escapeHtml(fallbackProject.project_type || 'N/A')}</span></div>
           </div>
         </div>
       </div>
       <div class="project-nav">
-        ${previousProject ? `<a href="project-details.html?id=${previousProject.id}" class="btn btn-secondary">Previous Project</a>` : '<span class="btn btn-secondary disabled">Previous Project</span>'}
-        ${nextProject ? `<a href="project-details.html?id=${nextProject.id}" class="btn btn-secondary">Next Project</a>` : '<span class="btn btn-secondary disabled">Next Project</span>'}
+        ${previousProject ? `<a href="project-details.html?id=${Number(previousProject.id) || ''}" class="btn btn-secondary">Previous Project</a>` : '<span class="btn btn-secondary disabled">Previous Project</span>'}
+        ${nextProject ? `<a href="project-details.html?id=${Number(nextProject.id) || ''}" class="btn btn-secondary">Next Project</a>` : '<span class="btn btn-secondary disabled">Next Project</span>'}
       </div>
     `;
   }
